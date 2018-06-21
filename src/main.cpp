@@ -2,8 +2,8 @@
 //Codigo no hecho por mi
 byte statusLed    = 13;
 
-byte sensorInterrupt = 0;  // 0 = digital pin 2
-byte sensorPin       = 2;
+uint8_t sensorPin = 4;  // 0 = digital pin 2
+//byte sensorPin       = 2;
 
 // The hall-effect flow sensor outputs approximately 4.5 pulses per second per
 // litre/minute of flow.
@@ -44,7 +44,7 @@ void setup()
   // The Hall-effect sensor is connected to pin 2 which uses interrupt 0.
   // Configured to trigger on a FALLING state change (transition from HIGH
   // state to LOW state)
-  attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+  attachInterrupt(digitalPinToInterrupt(sensorPin), pulseCounter, FALLING);
 }
 
 /**
@@ -57,7 +57,7 @@ void loop()
   {
     // Disable the interrupt while calculating flow rate and sending the value to
     // the host
-    detachInterrupt(sensorInterrupt);
+    detachInterrupt(digitalPinToInterrupt(sensorPin));
 
     // Because this loop may not complete in exactly 1 second intervals we calculate
     // the number of milliseconds that have passed since the last execution and use
@@ -101,7 +101,7 @@ void loop()
     pulseCount = 0;
 
     // Enable the interrupt again now that we've finished sending output
-    attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+    attachInterrupt(digitalPinToInterrupt(sensorPin), pulseCounter, FALLING);
   }
 }
 
